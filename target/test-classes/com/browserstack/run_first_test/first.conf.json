@@ -1,0 +1,18 @@
+{
+    "server": "hub-cloud.browserstack.com",
+    "username": "mariodracon1",
+    "access_key": "NygFxGNb598rs1xrsjQ4",
+  
+    "capabilities": {
+      "project": "First Junit5 Android Project",
+      "build": "Junit5 Android First",
+      "name": "first_test",
+      "browserstack.debug": true,
+      "app": "bs://<app-id>"
+    },
+  
+    "environments": [{
+      "device": "Google Pixel 3",
+      "os_version":  "9.0"
+    }]
+}
