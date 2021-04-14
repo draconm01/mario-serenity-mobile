@@ -32,7 +32,7 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 
 
 	@Test
-	public void name() throws MalformedURLException {
+	public void IOS_Test() throws MalformedURLException {
 
 		DesiredCapabilities caps = new DesiredCapabilities();
 
@@ -41,6 +41,7 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 		caps.setCapability("realMobile", "true");
 		caps.setCapability("os_version", "12");
 		caps.setCapability("name", "iPhone test");
+		//caps.setCapability("pageLoadStrategy", "normal");
 
 		driver = new RemoteWebDriver(new URL(URL), caps);
 
@@ -48,6 +49,7 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 		driver.get("http://pprd.aviva.fr");
 
+		//****************************************************************
 		WebElement btnAccepterCookies = driver.findElement(By.xpath("//*[contains(text(),'Accepter')]"));
 		//if(btnAccepterCookies.isDisplayed()) 
 		waitIsVisible(btnAccepterCookies);
@@ -58,17 +60,22 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 		WebElement btnDevisHabitation = driver.findElement(By.xpath("//*[@id=\"section-menu-six-cards\"]/div/div/div[2]/div[2]/div[2]/p[1]/a"));
 		btnDevisHabitation.click();
 
+		//****************************************************************
+		waitIsVisible(By.xpath("//span[contains(text(),'Autres biens')]"));
 		WebElement typeLogementAutresBiens = driver.findElement(By.xpath("//span[contains(text(),'Autres biens')]"));
 		typeLogementAutresBiens.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
-		WebElement residencePrincipale = driver.findElement(By.xpath("//*[contains(text(),'Ma résidence principale')]"));
+		WebElement residencePrincipale = driver.findElement(By.xpath("//*[contains(text(),'Ma rÃ©sidence principale')]"));
 		residencePrincipale.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
-		WebElement proprietaire = driver.findElement(By.xpath("//*[contains(text(),'Propriétaire')]"));
+		WebElement proprietaire = driver.findElement(By.xpath("//*[contains(text(),'PropriÃ©taire')]"));
 		proprietaire.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
 		WebElement nonLocationSaisonniere = driver.findElement(By.xpath("//span[contains(text(),'NON')]"));
 		nonLocationSaisonniere.click();
@@ -76,30 +83,17 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 		WebElement poursuivre = driver.findElement(By.xpath("//*[@value='Poursuivre']"));
 		poursuivre.click();
 
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		//****************************************************************
 		WebElement messageRouge = driver.findElement(By.xpath("//*[contains(text(),\"Nous ne pouvons malheureusement pas vous proposer de tarif habitation en ligne.\")]"));
 		hightlight(messageRouge);
 		assertTrue(messageRouge.isDisplayed());
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		driver.close();
+		sleep(3);
 		driver.quit();
 	}
 
 	/**
-	 * Méthodes utilitaires
+	 * MÃ©thodes utilitaires
 	 */
 	public void waitLoaderAbsent() {
 		WebElement loader = driver.findElement(By.xpath("//*[contains(text(),\"Veuillez patienter\")]"));
@@ -112,6 +106,10 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 
 	public void waitIsVisible(WebElement webElement) {
 		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(webElement));
+	}
+	
+	public void waitIsVisible(By locator) {
+		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
 
 	public void waitIsInvisible(WebElement webElement) {
@@ -133,5 +131,15 @@ public class IOS_Safari_D4_002_AFR_Rejets_001_BienAutre_SafariTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+	
+	public void sleep(int seconds) {
+		String stringSeconds = String.valueOf(seconds);
+		seconds = Integer.parseInt(stringSeconds+"000");
+		try {
+			Thread.sleep(seconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

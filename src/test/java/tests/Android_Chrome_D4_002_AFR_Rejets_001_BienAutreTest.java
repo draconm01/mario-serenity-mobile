@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +31,7 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 
 
 	@Test
-	public void name() throws MalformedURLException {
+	public void Android_Test() throws MalformedURLException {
 
 		DesiredCapabilities caps = new DesiredCapabilities();
 
@@ -41,13 +40,15 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 		caps.setCapability("realMobile", "true");
 		caps.setCapability("os_version", "9.0");
 		caps.setCapability("name", "Android test");
+		caps.setCapability("pageLoadStrategy", "normal");
 
 		driver = new RemoteWebDriver(new URL(URL), caps);
 
-		/* Write your Custom code here */
-		driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+		/* Ecrit ton  code personnel ici */
+		//driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		driver.get("http://pprd.aviva.fr");
 
+		//****************************************************
 		WebElement btnAccepterCookies = driver.findElement(By.xpath("//*[contains(text(),'Accepter')]"));
 		waitIsVisible(btnAccepterCookies);
 		waitIsClickable(btnAccepterCookies);
@@ -57,18 +58,23 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 		WebElement btnDevisHabitation = driver.findElement(By.xpath("//*[@id=\"section-menu-six-cards\"]/div/div/div[2]/div[2]/div[2]/p[1]/a"));
 		btnDevisHabitation.click();
 
+		//*****************************************************
+		waitIsVisible(By.xpath("//span[contains(text(),'Autres biens')]/ancestor::span"));
 		WebElement typeLogementAutresBiens = driver.findElement(By.xpath("//span[contains(text(),'Autres biens')]/ancestor::span"));
 		//((JavascriptExecutor) driver).executeScript("arguments[0].click();", typeLogementAutresBiens);
 		typeLogementAutresBiens.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
-		WebElement residencePrincipale = driver.findElement(By.xpath("//*[contains(text(),'Ma résidence principale')]"));
+		WebElement residencePrincipale = driver.findElement(By.xpath("//*[contains(text(),'Ma rÃ©sidence principale')]"));
 		residencePrincipale.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
-		WebElement proprietaire = driver.findElement(By.xpath("//*[contains(text(),'Propriétaire')]"));
+		WebElement proprietaire = driver.findElement(By.xpath("//*[contains(text(),'PropriÃ©taire')]"));
 		proprietaire.click();
-		waitLoaderAbsent();
+		//waitLoaderAbsent();
+		sleep(2);
 
 		WebElement nonLocationSaisonniere = driver.findElement(By.xpath("//span[contains(text(),'NON')]"));
 		//((JavascriptExecutor) driver).executeScript("arguments[0].click();", nonLocationSaisonniere);
@@ -77,30 +83,17 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 		WebElement poursuivre = driver.findElement(By.xpath("//*[@value='Poursuivre']"));
 		poursuivre.click();
 
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		//*********************************************
 		WebElement messageRouge = driver.findElement(By.xpath("//*[contains(text(),\"Nous ne pouvons malheureusement pas vous proposer de tarif habitation en ligne.\")]"));
 		hightlight(messageRouge);
 		assertTrue(messageRouge.isDisplayed());
+		sleep(3);
 
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		driver.close();
 		driver.quit();
 	}
 
 	/**
-	 * Méthodes utilitaires
+	 * MÃ©thodes utilitaires
 	 */
 	public void waitLoaderAbsent() {
 		WebElement loader = driver.findElement(By.xpath("//*[contains(text(),\"Veuillez patienter\")]"));
@@ -113,6 +106,10 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 
 	public void waitIsVisible(WebElement webElement) {
 		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(webElement));
+	}
+
+	public void waitIsVisible(By locator) {
+		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
 
 	public void waitIsInvisible(WebElement webElement) {
@@ -134,5 +131,15 @@ public class Android_Chrome_D4_002_AFR_Rejets_001_BienAutreTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+
+	public void sleep(int seconds) {
+		String stringSeconds = String.valueOf(seconds);
+		seconds = Integer.parseInt(stringSeconds+"000");
+		try {
+			Thread.sleep(seconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
