@@ -2,8 +2,6 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +17,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import net.serenitybdd.core.pages.WebElementFacade;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Managed;
 
@@ -50,12 +49,11 @@ public class WebAvivaTest {
 	@Test
 	public void Web_Aviva_Test() {
 
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driver.get("http://pprd.aviva.fr");
 		driver.manage().window().maximize();
 
-		WebElement btnAccepterCookies = driver.findElement(By.xpath("//*[contains(text(),'Accepter')]"));
-		waitIsVisible(btnAccepterCookies);
+		WebElementFacade btnAccepterCookies = driver.findElement(By.xpath("//*[contains(text(),'Accepter')]"));
 		btnAccepterCookies.click();
 		waitIsInvisible(btnAccepterCookies);
 
@@ -114,7 +112,7 @@ public class WebAvivaTest {
 	public void waitIsVisible(WebElement webElement) {
 		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(webElement));
 	}
-	
+
 	public void waitIsVisible(By locator) {
 		new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(locator));
 	}
